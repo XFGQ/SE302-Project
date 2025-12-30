@@ -10,7 +10,9 @@ export class HomePage {
     readonly footerContainer: Locator;
     readonly copyrightText: Locator;
     readonly postAdButton: Locator;
-
+    readonly searchSuggestions: Locator;
+    
+    
     constructor(page: Page) {
         this.page = page;
         this.logo = page.locator('header a.logo, img[alt*="olx"]').first();
@@ -21,8 +23,8 @@ export class HomePage {
         this.categoriesBtn = page.getByRole('link', { name: 'Kategorije', exact: true });
         this.footerContainer = page.locator('#olx-home-footer');
         this.copyrightText = page.locator('.footer-copyright p');
-        this.postAdButton = page.locator('a:has-text("Objavi oglas"), a:has-text("Postavi oglas"), [href*="postavi-oglas"]').first();
-        
+        this.postAdButton = page.locator('button').filter({ hasText: /Objavi oglas/i }).first();
+        this.searchSuggestions = page.locator('.suggestions, .search-suggestions, [class*="suggestion"]');
     }
 
     /**
