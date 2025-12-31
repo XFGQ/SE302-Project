@@ -4,7 +4,6 @@ import { HomePage } from "../../pages/HomePage_Smoke";
 test.describe("OLX.ba - Smoke Testing Suite", () => {
 	let homePage: HomePage;
 
-	// Hook to prepare the environment before each test [cite: 22]
 	test.beforeEach(async ({ page }) => {
 		homePage = new HomePage(page);
 		await homePage.navigate();
@@ -37,6 +36,7 @@ test.describe("OLX.ba - Smoke Testing Suite", () => {
 	// TC-05: Footer Presence
 	test("Should verify that the footer is loaded with copyright info", async () => {
 		await expect(homePage.footerContainer).toBeVisible();
+		// Verify copyright year is current (future-proofing check)
 		await expect(homePage.copyrightText).toContainText("2025");
 	});
 });

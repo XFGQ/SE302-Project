@@ -29,7 +29,6 @@ export class HomePage {
 	 * Navigates to the homepage with a buffer for slow network.
 	 */
 	async navigate(): Promise<void> {
-		// 'networkidle' kullanarak sayfanın tüm arka plan yüklemelerinin bitmesini bekliyoruz
 		await this.page.goto("https://olx.ba", { waitUntil: "networkidle" });
 	}
 
@@ -38,15 +37,12 @@ export class HomePage {
 	 */
 	async handleCookies(): Promise<void> {
 		try {
-			// Butonun hem görünür hem de tıklanabilir olmasını bekle
 			await this.acceptCookiesBtn.waitFor({ state: "visible", timeout: 10000 });
 			await this.acceptCookiesBtn.click();
 
-			// KRİTİK: Çerez paneli tamamen kapanana kadar bekle (hidden durumu)
-			// Bu yapılmazsa logo testi "element intercepted" hatası verip bozulur.
+			// Wait for overlay to disappear to prevent element-intercepted errors
+			// TODO: 7 second too much. Refactor this to close cookies by heands.
 			await this.acceptCookiesBtn.waitFor({ state: "hidden", timeout: 7000 });
-
-			// Animasyonun bitmesi için çok kısa bir insansı bekleme
 			await this.page.waitForTimeout(1000);
 		} catch (error) {
 			console.log(
@@ -54,6 +50,11 @@ export class HomePage {
 			);
 		}
 	}
+
+	/**
+	 * Searches for products using human-like typing to bypass bot detection.
+	 * @param keyword - Search term to type in the search bar
+	 */
 	async searchFor(keyword: string): Promise<void> {
 		await this.searchInput.waitFor({ state: "visible" });
 		await this.searchInput.click();
