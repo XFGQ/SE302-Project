@@ -37,6 +37,6 @@ test.describe("OLX.ba - Smoke Testing Suite", () => {
 	test("Should verify that the footer is loaded with copyright info", async () => {
 		await expect(homePage.footerContainer).toBeVisible();
 		// Verify copyright year is current (future-proofing check)
-		await expect(homePage.copyrightText).toContainText("2025");
+		await expect(homePage.copyrightText).toContainText("2026");
 	});
 });
